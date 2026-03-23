@@ -1,8 +1,9 @@
 # Projeto-Agricultura de Precisão: escanear plantações identificando pragas
 
 # Nome da Equipe: indefinido*
-Ryan(Backend e Líder), Nicole(Front-End/Desing), Rafaella(Front-End/Desing) e Lucas Justin(Full-Stack)<br>
-logo da equipe: indefinido*
+Ryan(Backend e Líder)<br> Nicole(Front-End/Desing)<br>Rafaella(Front-End/Desing)<br> Lucas Justin(Full-Stack)<br>
+
+Logo da equipe: indefinido*
 
 🎯 1. Objetivo do Projeto
 Desenvolver um sistema baseado em tecnologia de Agricultura de Precisão, capaz de escanear plantações por meio de sensores, drones ou imagens, com o objetivo de:

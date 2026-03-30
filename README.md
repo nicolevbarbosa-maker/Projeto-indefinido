@@ -3,7 +3,7 @@
 # Nome da Equipe: indefinido*
 Ryan(Backend e Líder)<br> Nicole(Front-End/Desing)<br>Rafaella(Front-End/Desing)<br> Lucas Justin(Full-Stack)<br>
 
-Logo da equipe: indefinido*
+Logo da equipe: AgroVision
 
 🎯 1. Objetivo do Projeto
 Desenvolver um sistema baseado em tecnologia de Agricultura de Precisão, capaz de escanear plantações por meio de sensores, drones ou imagens, com o objetivo de:

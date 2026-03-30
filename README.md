@@ -1,6 +1,6 @@
 # Projeto-Agricultura de Precisão: escanear plantações identificando pragas
 
-# Nome da Equipe: indefinido*
+# Nome da Equipe: AgroVision*
 Ryan(Backend e Líder)<br> Nicole(Front-End/Desing)<br>Rafaella(Front-End/Desing)<br> Lucas Justin(Full-Stack)<br>
 
 Logo da equipe: AgroVision

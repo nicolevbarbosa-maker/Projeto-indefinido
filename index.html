@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroVision — Controle de Missão</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════ TOPBAR ═══════════════════ -->
+  <header class="topbar">
+
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="6" fill="none" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="22" cy="22" r="2.5" fill="#00ff88"/>
+          <line x1="22" y1="16" x2="22" y2="8"  stroke="#00ff88" stroke-width="1.2"/>
+          <line x1="22" y1="28" x2="22" y2="36" stroke="#00ff88" stroke-width="1.2"/>
+          <line x1="16" y1="22" x2="8"  y2="22" stroke="#00ff88" stroke-width="1.2"/>
+          <line x1="28" y1="22" x2="36" y2="22" stroke="#00ff88" stroke-width="1.2"/>
+          <ellipse cx="22" cy="6"  rx="5" ry="1.5" fill="none" stroke="#00ff88" stroke-width="1.2" opacity="0.7"/>
+          <ellipse cx="22" cy="38" rx="5" ry="1.5" fill="none" stroke="#00ff88" stroke-width="1.2" opacity="0.7"/>
+          <ellipse cx="6"  cy="22" rx="1.5" ry="5" fill="none" stroke="#00ff88" stroke-width="1.2" opacity="0.7"/>
+          <ellipse cx="38" cy="22" rx="1.5" ry="5" fill="none" stroke="#00ff88" stroke-width="1.2" opacity="0.7"/>
+          <path d="M18 12 Q22 8 26 12"  fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+          <path d="M18 32 Q22 36 26 32" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+      <span class="logo-text">AGROVISION</span>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        CONECTADO
+      </div>
+
+      <div class="stat-item">
+        <div class="signal-bars">
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+          <div class="signal-bar"></div>
+        </div>
+        <span class="stat-label">SINAL</span>
+        <span class="stat-value">98%</span>
+      </div>
+
+      <div class="stat-item">
+        <span style="font-size:18px; color:var(--neon-green); filter:drop-shadow(0 0 6px var(--neon-green))">🔋</span>
+        <span class="stat-label">BATERIA</span>
+        <span class="stat-value">85%</span>
+      </div>
+
+      <button class="btn-auto">
+        <span class="wifi-icon">📡</span>
+        MODO AUTOMÁTICO
+      </button>
+    </div>
+
+  </header>
+
+  <!-- ═══════════════════ MAIN GRID ═══════════════════ -->
+  <div class="main">
+
+    <!-- ─── LEFT PANEL ─── -->
+    <aside class="left-panel">
+
+      <!-- Mission Controls -->
+      <div class="panel-section">
+        <div class="panel-title">Controles da Missão</div>
+        <button class="btn-mission btn-iniciar">▶ INICIAR MISSÃO</button>
+        <button class="btn-mission btn-parar">⬛ PARAR</button>
+        <button class="btn-mission btn-resetar"><span class="spin">↻</span> RESETAR</button>
+      </div>
+
+      <!-- Speed Control -->
+      <div class="velocity-control">
+        <div class="velocity-header">
+          <span class="velocity-label">⟳ VELOCIDADE</span>
+          <span class="velocity-value" id="speed-display">50%</span>
+        </div>
+        <div class="speed-wrap">
+          <input type="range" min="0" max="100" value="50" id="speed-slider">
+        </div>
+        <div class="speed-labels">
+          <span>LENTO</span>
+          <span>RÁPIDO</span>
+        </div>
+      </div>
+
+      <!-- Flight Status -->
+      <div class="flight-status">
+        <div class="panel-title">Status de Voo</div>
+        <div class="flight-item">
+          <span class="flight-key"><span class="icon">⏱</span> TEMPO</span>
+          <span class="flight-val" id="flight-time">12:34</span>
+        </div>
+        <div class="flight-item">
+          <span class="flight-key"><span class="icon">📍</span> DISTÂNCIA</span>
+          <span class="flight-val">2,4 km</span>
+        </div>
+        <div class="flight-item">
+          <span class="flight-key"><span class="icon">◉</span> STATUS</span>
+          <span class="flight-val status-wait">EM ESPERA</span>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ─── CENTER PANEL ─── -->
+    <main class="center-panel">
+
+      <!-- Camera / Feed Area -->
+      <div class="camera-area">
+        <div class="camera-inner">
+
+          <!-- Webcam feed — preenchimento total, atrás de todos os HUDs -->
+          <video id="camera-feed" autoplay playsinline muted></video>
+
+          <!-- Fallback: imagem estática exibida enquanto câmera não carrega -->
+          <div class="video-placeholder" id="video-bg"></div>
+
+          <!-- HUD overlays -->
+          <div class="scanlines"></div>
+          <div class="hud-grid"></div>
+          <div class="scan-sweep"></div>
+
+          <!-- Corner brackets -->
+          <div class="corners">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+          </div>
+
+          <!-- Crosshair -->
+          <div class="crosshair"></div>
+
+          <!-- Camera Header -->
+          <div class="camera-header">
+            <div>
+              <div class="cam-title-group">
+                <span class="cam-wave">〜</span>
+                <span class="cam-title">VISÃO GERAL DA FAZENDA</span>
+                <span class="cam-sep">·</span>
+                <span class="cam-sub">TEMPO REAL</span>
+              </div>
+              <div class="cam-subtitle-row">Fazenda Vale do Carvalho — Seção 7B</div>
+            </div>
+            <div class="cam-live">
+              <div class="cam-live-dot"></div>
+              TRANSMISSÃO ATIVA
+            </div>
+          </div>
+
+          <!-- Live UTC Clock -->
+          <div class="hud-clock" id="hud-clock">00:00:00 UTC</div>
+
+          <!-- Legend -->
+          <div class="legend-overlay">
+            <div class="legend-item"><div class="legend-box legend-green"></div> Saudável</div>
+            <div class="legend-item"><div class="legend-box legend-red"></div> Alerta</div>
+            <div class="legend-item"><div class="legend-drone">◎</div> Drone</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Telemetry Row -->
+      <div class="telemetry-row">
+        <div class="telemetry-label">
+          <span class="telem-icon">〰</span>
+          <span class="telem-label-text">DADOS EM TEMPO REAL</span>
+        </div>
+        <div class="telem-cards">
+          <div class="telem-card blue">
+            <div class="telem-card-icon">🛩</div>
+            <div class="telem-card-title">Altitude</div>
+            <div class="telem-card-val blue">125,4 <span class="telem-card-unit">m</span></div>
+          </div>
+          <div class="telem-card purple">
+            <div class="telem-card-icon">💫</div>
+            <div class="telem-card-title">Velocidade</div>
+            <div class="telem-card-val purple">12,5 <span class="telem-card-unit">m/s</span></div>
+          </div>
+          <div class="telem-card green">
+            <div class="telem-card-icon">🛰</div>
+            <div class="telem-card-title">GPS</div>
+            <div class="telem-card-val green" style="font-size:12px">40.7128°N 74.0060°O</div>
+          </div>
+          <div class="telem-card orange">
+            <div class="telem-card-icon">🔍</div>
+            <div class="telem-card-title">Área Escaneada</div>
+            <div class="telem-card-val orange">68 <span class="telem-card-unit">%</span></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ─── RIGHT PANEL ─── -->
+    <aside class="right-panel">
+
+      <div class="analysis-title">Análise Inteligente</div>
+
+      <!-- Plant Health -->
+      <div class="health-section">
+        <div class="section-title-sm">🌿 Saúde das Plantas</div>
+        <div class="health-header-row">
+          <span class="health-label">Saúde Geral</span>
+          <div class="health-pct">92<span class="pct-sym">%</span><span class="trend">↗</span></div>
+        </div>
+        <div class="health-bar-bg">
+          <div class="health-bar-fill" style="width:92%"></div>
+        </div>
+      </div>
+
+      <!-- Distribution -->
+      <div class="distrib-section">
+        <div class="section-title-sm">⚡ Distribuição</div>
+        <div class="distrib-grid">
+          <div class="distrib-card">
+            <div class="distrib-card-label">Saudável</div>
+            <div class="distrib-card-val green-val">75%</div>
+          </div>
+          <div class="distrib-card">
+            <div class="distrib-card-label">Em Risco</div>
+            <div class="distrib-card-val orange-val">25%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Alerts -->
+      <div class="alerts-section">
+        <div class="alerts-header">
+          <div class="section-title-sm" style="margin-bottom:0">⚠ Alertas Ativos</div>
+          <div class="alert-count">2</div>
+        </div>
+
+        <div class="alert-card alert-red">
+          <div class="alert-icon">🦠</div>
+          <div class="alert-content">
+            <div class="alert-title-row">
+              <div class="alert-title">Possível Praga Detectada</div>
+              <span class="alert-zone-badge badge-red">ZONA C</span>
+            </div>
+            <div class="alert-desc">Zona C apresenta padrões anormais</div>
+          </div>
+        </div>
+
+        <div class="alert-card alert-blue">
+          <div class="alert-icon">💧</div>
+          <div class="alert-content">
+            <div class="alert-title-row">
+              <div class="alert-title" style="color:var(--neon-blue); text-shadow:var(--glow-blue)">Umidade Baixa</div>
+              <span class="alert-zone-badge badge-blue">ZONA B</span>
+            </div>
+            <div class="alert-desc">Zona B necessita irrigação</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggested Actions -->
+      <div class="alerts-section">
+  <div class="section-title-sm"><span class="spin">🚨</span> Alertas Ativos</div>
+  
+  <div class="alerts-container">
+    
+    <div class="alert-card alert-red">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <div class="alert-title-row">
+          <div class="alert-title">Carregando dados...</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+    </aside>
+
+  </div><!-- /.main -->
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+</html>
